@@ -3,29 +3,39 @@
 // ====================================
 
 document.addEventListener('DOMContentLoaded', function() {
-    // すべての.feature-sectionを取得
-    const featureSections = document.querySelectorAll('.feature-section');
+    // すべての.feature-titleを取得
+    const titles = document.querySelectorAll('.feature-title');
     
-    featureSections.forEach(section => {
-        const title = section.querySelector('.feature-title');
-        const content = section.querySelector('p');
+    titles.forEach(title => {
+        // この見出しの親要素（feature-section）を取得
+        const section = title.closest('.feature-section');
         
-        if (title && content) {
-            // 初期状態: すべて閉じる
-            content.classList.remove('open');
+        if (section) {
+            // このセクション内の全てのpタグを取得
+            const paragraphs = section.querySelectorAll('p');
+            
+            // 初期状態: 全て閉じる
+            paragraphs.forEach(p => p.classList.remove('open'));
             
             // クリックイベント
             title.addEventListener('click', function() {
                 // 開閉状態を切り替え
-                const isOpen = content.classList.contains('open');
+                const isOpen = paragraphs[0].classList.contains('open');
                 
+                paragraphs.forEach(p => {
+                    if (isOpen) {
+                        // 閉じる
+                        p.classList.remove('open');
+                    } else {
+                        // 開く
+                        p.classList.add('open');
+                    }
+                });
+                
+                // タイトルのクラスも切り替え
                 if (isOpen) {
-                    // 閉じる
-                    content.classList.remove('open');
                     title.classList.remove('open');
                 } else {
-                    // 開く
-                    content.classList.add('open');
                     title.classList.add('open');
                 }
             });
